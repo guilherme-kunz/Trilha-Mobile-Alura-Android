@@ -1,6 +1,7 @@
 package br.com.alura.estoque.ui.activity;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -59,9 +60,12 @@ public class ListaProdutosActivity extends AppCompatActivity {
             return null;
         }, produtosNovos -> {
             if (produtosNovos != null){
+                adapter.atualiza(produtosNovos);
+            } else {
+                Toast.makeText(this, "Não foi possivel buscar os produtos da API",
+                        Toast.LENGTH_SHORT).show();
             }
-            adapter.atualiza(produtosNovos);
-        })
+        }).execute();
 
 //        new BaseAsyncTask<>(dao::buscaTodos,
 //                resultado -> adapter.atualiza(resultado))
