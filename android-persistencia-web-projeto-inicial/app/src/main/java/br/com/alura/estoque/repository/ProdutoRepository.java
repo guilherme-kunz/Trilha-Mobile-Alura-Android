@@ -14,34 +14,29 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class ProdutoRepository {
-
     private final ProdutoDAO dao;
-
     public ProdutoRepository(ProdutoDAO dao) {
         this.dao = dao;
     }
-
-    public void buscaProdutos(ProdutosCarregadoListener listener) {
+    public void buscaProdutos(DadosCarregadosListener<List<Produto>> listener) {
         buscaProdutosInternos(listener);
     }
-
-    private void buscaProdutosInternos(ProdutosCarregadoListener listener) {
+    private void buscaProdutosInternos(DadosCarregadosListener<List<Produto>> listener) {
         new BaseAsyncTask<>(dao::buscaTodos,
                 resultado -> {
                     listener.quandoCarregados(resultado);
                     buscaProdutosNaApi(listener);
                 }).execute();
     }
-
-    private void buscaProdutosNaApi(ProdutosCarregadoListener listener) {
+    private void buscaProdutosNaApi(DadosCarregadosListener<List<Produto>> listener) {
         ProdutoService service = new EstoqueRetrofit().getProdutoService();
         Call<List<Produto>> call = service.buscaTodos();
+
         new BaseAsyncTask<>(() -> {
             try {
                 Response<List<Produto>> resposta = call.execute();
                 List<Produto> produtosNovos = resposta.body();
                 dao.salva(produtosNovos);
-                return dao.buscaTodos();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -49,9 +44,17 @@ public class ProdutoRepository {
         }, listener::quandoCarregados)
                 .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
+    public void salva(Produto produto,
+                      DadosCarregadosListener<Produto> listener) {
+        new BaseAsyncTask<>(() -> {
+            long id = dao.salva(produto);
+            return dao.buscaProduto(id);
+        }, listener::quandoCarregados)
+                .execute();
+    }
 
-    public interface ProdutosCarregadoListener {
-        void quandoCarregados(List<Produto> produtos);
+    public interface DadosCarregadosListener <T> {
+        void quandoCarregados(T resultado);
     }
 
 }

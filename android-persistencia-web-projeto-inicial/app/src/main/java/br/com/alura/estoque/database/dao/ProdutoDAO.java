@@ -14,7 +14,7 @@ import br.com.alura.estoque.model.Produto;
 public interface ProdutoDAO {
 
     @Insert
-    long salva(Produto produto);
+    void salva(Produto produto);
 
     @Update
     void atualiza(Produto produto);

@@ -18,24 +18,21 @@ import br.com.alura.estoque.ui.dialog.SalvaProdutoDialog;
 import br.com.alura.estoque.ui.recyclerview.adapter.ListaProdutosAdapter;
 
 public class ListaProdutosActivity extends AppCompatActivity {
-
     private static final String TITULO_APPBAR = "Lista de produtos";
     private ListaProdutosAdapter adapter;
     private ProdutoDAO dao;
+    private ProdutoRepository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_produtos);
         setTitle(TITULO_APPBAR);
-
         configuraListaProdutos();
         configuraFabSalvaProduto();
-
         EstoqueDatabase db = EstoqueDatabase.getInstance(this);
         dao = db.getProdutoDAO();
-
-        ProdutoRepository repository = new ProdutoRepository(dao);
+        repository = new ProdutoRepository(dao);
         repository.buscaProdutos(adapter::atualiza);
     }
 
@@ -45,7 +42,6 @@ public class ListaProdutosActivity extends AppCompatActivity {
         listaProdutos.setAdapter(adapter);
         adapter.setOnItemClickRemoveContextMenuListener(this::remove);
     }
-
     private void remove(int posicao,
                         Produto produtoRemovido) {
         new BaseAsyncTask<>(() -> {
@@ -54,31 +50,21 @@ public class ListaProdutosActivity extends AppCompatActivity {
         }, resultado -> adapter.remove(posicao))
                 .execute();
     }
-
     private void configuraFabSalvaProduto() {
         FloatingActionButton fabAdicionaProduto = findViewById(R.id.activity_lista_produtos_fab_adiciona_produto);
         fabAdicionaProduto.setOnClickListener(v -> abreFormularioSalvaProduto());
     }
 
     private void abreFormularioSalvaProduto() {
-        new SalvaProdutoDialog(this, this::salva).mostra();
+        new SalvaProdutoDialog(this, produtoCriado ->
+                repository.salva(produtoCriado, adapter::adiciona))
+                .mostra();
     }
-
-    private void salva(Produto produto) {
-        new BaseAsyncTask<>(() -> {
-            long id = dao.salva(produto);
-            return dao.buscaProduto(id);
-        }, produtoSalvo ->
-                adapter.adiciona(produtoSalvo))
-                .execute();
-    }
-
     private void abreFormularioEditaProduto(int posicao, Produto produto) {
         new EditaProdutoDialog(this, produto,
                 produtoEditado -> edita(posicao, produtoEditado))
                 .mostra();
     }
-
     private void edita(int posicao, Produto produto) {
         new BaseAsyncTask<>(() -> {
             dao.atualiza(produto);
@@ -87,6 +73,4 @@ public class ListaProdutosActivity extends AppCompatActivity {
                 adapter.edita(posicao, produtoEditado))
                 .execute();
     }
-
-
 }
