@@ -7,7 +7,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Produto implements List<Produto> {
+public abstract class Produto implements List<Produto> {
 
     @PrimaryKey(autoGenerate = true)
     private final long id;
