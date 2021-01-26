@@ -53,14 +53,28 @@ public class ListaProdutosActivity extends AppCompatActivity {
         RecyclerView listaProdutos = findViewById(R.id.activity_lista_produtos_lista);
         adapter = new ListaProdutosAdapter(this, this::abreFormularioEditaProduto);
         listaProdutos.setAdapter(adapter);
-        adapter.setOnItemClickRemoveContextMenuListener(this::remove);
+        adapter.setOnItemClickRemoveContextMenuListener((posicao, produtoEscolhido) -> {
+            repository.remove(produtoEscolhido,
+                new ProdutoRepository.DadosCarregadosCallback<>() {
+            @Override
+            public void quandoSucesso(Object resultado) {
+                adapter.remove(posicao);
+            }
+
+            @Override
+            public void quandoFalha(String erro) {
+                Toast.makeText(ListaProdutosActivity.this,
+                        "Não foi possivel remover o produto", Toast.LENGTH_SHORT).show();
+            }
+        });
+        });
+
     }
-    private void remove(int posicao,
-                        Produto produtoRemovido) {
+    private void remove(Produto produto, ProdutoRepository.DadosCarregadosCallback<Void> callback) {
         new BaseAsyncTask<>(() -> {
-            dao.remove(produtoRemovido);
+            dao.remove(produto);
             return null;
-        }, resultado -> adapter.remove(posicao))
+        }, callback::quandoSucesso)
                 .execute();
     }
     private void configuraFabSalvaProduto() {
