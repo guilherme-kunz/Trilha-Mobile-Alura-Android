@@ -5,11 +5,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
 
-public class BaseCallBack <T> implements Callback<T> {
+public class CallBackComRetorno<T> implements Callback<T> {
 
     private final RespostaCallback<T> callback;
 
-    public BaseCallBack(RespostaCallback callback) {
+    public CallBackComRetorno(RespostaCallback callback) {
         this.callback = callback;
     }
 
