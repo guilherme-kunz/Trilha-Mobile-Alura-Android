@@ -5,6 +5,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
 
+import static br.com.alura.estoque.repository.callback.MensagensCallBack.MENSAGEM_ERRO_FALHA_COMUNICACAO;
+import static br.com.alura.estoque.repository.callback.MensagensCallBack.MENSAGEM_ERRO_RESPOSTA_NAO_SUCEDIDA;
+
 public class CallBackSemRetorno implements Callback<Void> {
 
     private final RespostaCallback callback;
@@ -20,7 +23,7 @@ public class CallBackSemRetorno implements Callback<Void> {
         if (response.isSuccessful()){
             callback.quandoSucesso();
         } else {
-            callback.quandoFalha("Resposta não Sucessidade");
+            callback.quandoFalha(MENSAGEM_ERRO_RESPOSTA_NAO_SUCEDIDA);
         }
     }
 
@@ -28,7 +31,7 @@ public class CallBackSemRetorno implements Callback<Void> {
     @EverythingIsNonNull
     public void onFailure(Call<Void> call,
                           Throwable t) {
-        callback.quandoFalha("Falha de comunicação: " + t.getMessage());
+        callback.quandoFalha(MENSAGEM_ERRO_FALHA_COMUNICACAO + t.getMessage());
     }
 
     public interface RespostaCallback <T> {
