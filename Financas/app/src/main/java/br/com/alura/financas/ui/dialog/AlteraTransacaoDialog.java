@@ -6,8 +6,6 @@ import android.view.ViewGroup;
 
 import br.com.alura.financas.R;
 import br.com.alura.financas.delegate.TransacaoDelegate;
-import br.com.alura.financas.model.Tipo;
-import br.com.alura.financas.model.Transacao;
 
 /**
  * Created by alex on 16/08/17.

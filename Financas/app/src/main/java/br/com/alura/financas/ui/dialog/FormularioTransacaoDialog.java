@@ -20,8 +20,6 @@ import java.util.Calendar;
 
 import br.com.alura.financas.R;
 import br.com.alura.financas.delegate.TransacaoDelegate;
-import br.com.alura.financas.model.Tipo;
-import br.com.alura.financas.model.Transacao;
 import br.com.alura.financas.util.DataUtil;
 import br.com.alura.financas.util.MoedaUtil;
 

@@ -1,7 +1,6 @@
 package br.com.alura.financas.ui;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -9,7 +8,6 @@ import android.widget.TextView;
 import java.math.BigDecimal;
 
 import br.com.alura.financas.R;
-import br.com.alura.financas.model.Resumo;
 import br.com.alura.financas.util.MoedaUtil;
 
 /**

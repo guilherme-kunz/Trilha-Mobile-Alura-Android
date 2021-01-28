@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import java.util.Calendar;
 
 import br.com.alura.financas.delegate.TransacaoDelegate;
-import br.com.alura.financas.model.Tipo;
 import br.com.alura.financas.util.DataUtil;
 
 /**
