@@ -1,1 +1,0 @@
-<h1 align="center">⭐ Repositório criado para exibir os códigos da Formação Mobile Android Alura!</h1>
