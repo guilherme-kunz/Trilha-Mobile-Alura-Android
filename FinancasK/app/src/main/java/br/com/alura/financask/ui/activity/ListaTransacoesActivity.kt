@@ -8,6 +8,7 @@ import br.com.alura.financask.model.Transacao
 import br.com.alura.financask.ui.adapter.ListaTransacoesAdapter
 import kotlinx.android.synthetic.main.activity_lista_transacoes.*
 import java.math.BigDecimal
+import java.util.*
 
 class ListaTransacoesActivity : AppCompatActivity() {
 
@@ -15,22 +16,38 @@ class ListaTransacoesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_transacoes)
 
-        val transacoes = listOf(Transacao(
+        val transacoes: List<Transacao> = transacoesDeExemplo()
+
+        configuraLista(transacoes)
+    }
+
+    private fun configuraLista(transacoes: List<Transacao>) {
+        lista_transacoes_listview.setAdapter(
+            ListaTransacoesAdapter(transacoes, this)
+        )
+    }
+
+    private fun transacoesDeExemplo() = listOf(
+        Transacao(
             valor = BigDecimal(20.5),
             tipo = Tipo.DESPESA,
             categoria = "Almoço de Final de Semana",
-            data = java.util.Calendar.getInstance()),
-            Transacao(BigDecimal(100.0),
-                categoria = "Economia",
-                tipo = Tipo.RECEITA),
-        Transacao(valor = BigDecimal(200.0),
-                tipo = Tipo.DESPESA),
-        Transacao(valor = BigDecimal(500.0),
+            data = Calendar.getInstance()
+        ),
+        Transacao(
+            BigDecimal(100.0),
+            categoria = "Economia",
+            tipo = Tipo.RECEITA
+        ),
+            Transacao(
+                valor = BigDecimal(200.0),
+                tipo = Tipo.DESPESA
+            ),
+            Transacao(
+                valor = BigDecimal(500.0),
                 categoria = "Prêmio",
-                tipo = Tipo.RECEITA))
-
-        lista_transacoes_listview.setAdapter(
-            ListaTransacoesAdapter(transacoes, this))
-    }
+                tipo = Tipo.RECEITA
+            )
+    )
 
 }
