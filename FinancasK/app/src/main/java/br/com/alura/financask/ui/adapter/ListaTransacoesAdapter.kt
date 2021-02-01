@@ -8,6 +8,7 @@ import android.widget.BaseAdapter
 import androidx.core.content.ContextCompat
 import br.com.alura.financask.R
 import br.com.alura.financask.extensions.formataParaBrasileiro
+import br.com.alura.financask.extensions.limitaEmAte
 import br.com.alura.financask.model.Tipo
 import br.com.alura.financask.model.Transacao
 import kotlinx.android.synthetic.main.transacao_item.view.*
@@ -18,6 +19,7 @@ class ListaTransacoesAdapter(transacoes: List<Transacao>,
 
     private val transacoes = transacoes
     private val context = context
+    private val limiteDaCategoria = 14
 
     override fun getView(posicao: Int, view: View?, parent: ViewGroup?): View {
         val viewCriada = LayoutInflater.from(context)
@@ -37,9 +39,8 @@ class ListaTransacoesAdapter(transacoes: List<Transacao>,
             viewCriada.transacao_icone.setBackgroundResource((R.drawable.icone_transacao_item_despesa))
         }
 
-
         viewCriada.transacao_valor.text = transacao.valor.formataParaBrasileiro()
-        viewCriada.transacao_categoria.text = transacao.categoria
+        viewCriada.transacao_categoria.text = transacao.categoria.limitaEmAte(limiteDaCategoria)
         viewCriada.transacao_data.text = transacao.data.formataParaBrasileiro()
 
 

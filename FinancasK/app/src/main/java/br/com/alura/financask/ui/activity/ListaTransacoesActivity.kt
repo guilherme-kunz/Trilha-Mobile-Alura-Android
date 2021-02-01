@@ -18,6 +18,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
         val transacoes = listOf(Transacao(
             valor = BigDecimal(20.5),
             tipo = Tipo.DESPESA,
+            categoria = "Almoço de Final de Semana",
             data = java.util.Calendar.getInstance()),
             Transacao(BigDecimal(100.0),
                 categoria = "Economia",
