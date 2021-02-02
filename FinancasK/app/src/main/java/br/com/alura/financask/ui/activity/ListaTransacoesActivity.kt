@@ -1,17 +1,21 @@
 package br.com.alura.financask.ui.activity
 
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.DatePicker
 import androidx.appcompat.app.AppCompatActivity
 import br.com.alura.financask.R
+import br.com.alura.financask.extensions.formataParaBrasileiro
 import br.com.alura.financask.model.Tipo
 import br.com.alura.financask.model.Transacao
 import br.com.alura.financask.ui.ResumoView
 import br.com.alura.financask.ui.adapter.ListaTransacoesAdapter
 import kotlinx.android.synthetic.main.activity_lista_transacoes.*
+import kotlinx.android.synthetic.main.form_transacao.view.*
 import java.math.BigDecimal
 import java.util.*
 
@@ -33,6 +37,25 @@ class ListaTransacoesActivity : AppCompatActivity() {
                 val view = window.decorView
                 val viewCriada = LayoutInflater.from(this)
                     .inflate(R.layout.form_transacao, view as ViewGroup, false)
+
+                val ano = 2021
+                val mes = 1
+                val dia = 2
+
+                val hoje = Calendar.getInstance()
+                viewCriada.form_transacao_data.setText(hoje.formataParaBrasileiro())
+                viewCriada.form_transacao_data.setOnClickListener {
+                    DatePickerDialog(this,
+                        { view, ano, mes, dia ->
+                            val dataSelecionada = Calendar.getInstance()
+                            dataSelecionada.set(ano, mes, dia)
+                            viewCriada.form_transacao_data
+                                .setText(dataSelecionada.formataParaBrasileiro())
+                        }
+                        , ano, mes, dia)
+                        .show()
+                }
+
 
                 AlertDialog.Builder(this)
                     .setTitle(R.string.adiciona_receita)
