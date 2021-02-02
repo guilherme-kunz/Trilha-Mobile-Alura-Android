@@ -22,33 +22,30 @@ class ListaTransacoesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_lista_transacoes)
 
         configuraResumo()
-
         configuraLista()
+        configuraFab()
+    }
 
-
+    private fun configuraFab() {
         lista_transacoes_adiciona_receita
             .setOnClickListener {
-                AdicionaTransacaoDialog(window.decorView as ViewGroup, this)
-                    .configuraDialog(Tipo.RECEITA, object : TransacaoDelegate {
-                        override fun delegate(transacao: Transacao) {
-                            atualizaTransacoes(transacao)
-                            lista_transacoes_adiciona_menu.close(true)
-                        }
-                    })
+                chamaDialogDeAdicao(Tipo.RECEITA)
             }
         lista_transacoes_adiciona_despesa
             .setOnClickListener {
-                AdicionaTransacaoDialog(window.decorView as ViewGroup, this)
-                    .configuraDialog(Tipo.DESPESA, object : TransacaoDelegate {
-                        override fun delegate(transacao: Transacao) {
-                            atualizaTransacoes(transacao)
-                            lista_transacoes_adiciona_menu.close(true)
-                        }
-                    })
+                chamaDialogDeAdicao(Tipo.DESPESA)
             }
     }
 
-
+    private fun chamaDialogDeAdicao(tipo: Tipo) {
+        AdicionaTransacaoDialog(window.decorView as ViewGroup, this)
+            .chama(tipo, object : TransacaoDelegate {
+                override fun delegate(transacao: Transacao) {
+                    atualizaTransacoes(transacao)
+                    lista_transacoes_adiciona_menu.close(true)
+                }
+            })
+    }
 
     private fun atualizaTransacoes(transacao: Transacao) {
         transacoes.add(transacao)
