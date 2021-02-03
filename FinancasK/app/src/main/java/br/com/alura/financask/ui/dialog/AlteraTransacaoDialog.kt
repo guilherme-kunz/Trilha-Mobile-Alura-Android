@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import br.com.alura.financask.R
 import br.com.alura.financask.R.string.adiciona_despesa
+import br.com.alura.financask.R.string.altera_despesa
 import br.com.alura.financask.delegate.TransacaoDelegate
 import br.com.alura.financask.extension.converteParaCalendar
 import br.com.alura.financask.extensions.formataParaBrasileiro
@@ -29,15 +30,16 @@ class AlteraTransacaoDialog(private val viewGroup: ViewGroup,
 
     fun chama(transacao: Transacao, transacaoDelegate: TransacaoDelegate) {
         val tipo = transacao.tipo
+
+        configuraCampoData()
+        configuraCampoCategoria(tipo)
+        configuraFormulario(tipo, transacaoDelegate)
+        
         campoValor.setText(transacao.valor.toString())
         campoData.setText(transacao.data.formataParaBrasileiro())
         val categoriasRetornadas = context.resources.getStringArray(categoriasPor(tipo))
         val transacaoCategoria = categoriasRetornadas.indexOf(transacao.categoria)
         campoCategoria.setSelection(posicaoCategoria, true)
-
-        configuraCampoData()
-        configuraCampoCategoria(tipo)
-        configuraFormulario(tipo, transacaoDelegate)
     }
 
     private fun configuraFormulario(tipo: Tipo, transacaoDelegate: TransacaoDelegate) {
@@ -45,7 +47,7 @@ class AlteraTransacaoDialog(private val viewGroup: ViewGroup,
         AlertDialog.Builder(context)
             .setTitle(titulo)
             .setView(viewCriada)
-            .setPositiveButton("Adicionar"
+            .setPositiveButton("Alterar"
             ) { _, _ ->
                 val valorEmTexto = campoValor.text.toString()
                 val dataEmTexto = campoData.text.toString()
@@ -68,10 +70,11 @@ class AlteraTransacaoDialog(private val viewGroup: ViewGroup,
             .show()
     }
 
-    private fun tituloPor(tipo: Tipo) = if (tipo == Tipo.RECEITA) {
-        R.string.adiciona_receita
-    } else {
-        adiciona_despesa
+    private fun tituloPor(tipo: Tipo) : Int {
+        if (tipo == Tipo.RECEITA) {
+            return R.string.altera_receita
+        }
+            return altera_despesa
     }
 
 
