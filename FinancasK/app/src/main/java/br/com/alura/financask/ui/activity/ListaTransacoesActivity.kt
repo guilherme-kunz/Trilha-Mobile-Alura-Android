@@ -1,7 +1,10 @@
 package br.com.alura.financask.ui.activity
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import br.com.alura.financask.R
 import br.com.alura.financask.model.Tipo
@@ -73,8 +76,27 @@ class ListaTransacoesActivity : AppCompatActivity() {
                 val transacao = transacoes[posicao]
                 chamaDialogDeAlteracao(transacao, posicao)
             }
+            setOnCreateContextMenuListener { menu, _, _ ->
+                menu.add(Menu.NONE, 1, Menu.NONE, "Remover")
+            }
         }
     }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        val idDoMenu = item.itemId
+        if (idDoMenu == 1) {
+            val adapterMenuInfo = item.menuInfo as AdapterView.AdapterContextMenuInfo
+            val posicaoDaTransacao = adapterMenuInfo.position
+            remove(posicaoDaTransacao)
+        }
+        return super.onContextItemSelected(item)
+    }
+
+    private fun remove(posicao: Int) {
+        transacoes.removeAt(posicao)
+        atualizaTransacoes()
+    }
+
 
     private fun chamaDialogDeAlteracao(transacao: Transacao, posicao: Int) {
         AlteraTransacaoDialog(viewGroupDaActivity, this)
