@@ -6,7 +6,7 @@ class TransacaoDAO {
 
     val transacoes: List<Transacao> = Companion.transacoes
     companion object{
-        private val transacoes: MutableList<Transacao> = mutableListOf()
+        val transacoes: MutableList<Transacao> = mutableListOf()
     }
 
     fun adiciona(transacao: Transacao){
