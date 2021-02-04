@@ -8,7 +8,6 @@ import android.widget.BaseAdapter
 import androidx.core.content.ContextCompat
 import br.com.alura.financask.R
 import br.com.alura.financask.extensions.formataParaBrasileiro
-import br.com.alura.financask.extensions.limitaEmAte
 import br.com.alura.financask.model.Tipo
 import br.com.alura.financask.model.Transacao
 import kotlinx.android.synthetic.main.transacao_item.view.*

@@ -3,20 +3,17 @@ package br.com.alura.financask.ui.dialog
 import android.content.Context
 import android.view.ViewGroup
 import br.com.alura.financask.R
-import br.com.alura.financask.delegate.TransacaoDelegate
 import br.com.alura.financask.extensions.formataParaBrasileiro
 import br.com.alura.financask.model.Tipo
 import br.com.alura.financask.model.Transacao
-import kotlinx.android.synthetic.main.form_transacao.view.*
-import java.util.*
 
 class AlteraTransacaoDialog(viewGroup: ViewGroup,
                             private val context: Context) : FormularioTransacaoDialog(context, viewGroup) {
 
-    fun chama(transacao: Transacao, transacaoDelegate: TransacaoDelegate) {
+    fun chama(transacao: Transacao, delegate: (transacao : Transacao) -> Unit) {
         val tipo = transacao.tipo
 
-       super.chama(tipo, transacaoDelegate)
+       super.chama(tipo, delegate)
 
         inicializaCampos(transacao)
     }
