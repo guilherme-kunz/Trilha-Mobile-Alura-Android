@@ -3,6 +3,8 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
       <module name="Agenda-Sync.app" target="1.8" />
+      <module name="WebService.app" target="1.8" />
+      <module name="WebServiceCopia.app" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
