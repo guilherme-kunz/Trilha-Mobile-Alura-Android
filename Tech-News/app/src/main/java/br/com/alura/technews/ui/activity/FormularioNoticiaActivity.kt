@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import br.com.alura.technews.R
 import br.com.alura.technews.database.AppDatabase
@@ -14,6 +13,7 @@ import br.com.alura.technews.ui.activity.extensions.mostraErro
 import br.com.alura.technews.ui.viewmodel.FormularioNoticiaViewModel
 import br.com.alura.technews.ui.viewmodel.factory.FormularioNoticiasViewModelFactory
 import kotlinx.android.synthetic.main.activity_formulario_noticia.*
+import androidx.lifecycle.Observer as Observer
 
 private const val TITULO_APPBAR_EDICAO = "Editando notícia"
 private const val TITULO_APPBAR_CRIACAO = "Criando notícia"
@@ -75,20 +75,6 @@ class FormularioNoticiaActivity : AppCompatActivity() {
     }
 
     private fun salva(noticia: Noticia) {
-        val falha = { _: String? ->
-            mostraErro(MENSAGEM_ERRO_SALVAR)
-        }
-        val sucesso = { _: Noticia ->
-            finish()
-        }
-
-        if (noticia.id > 0) {
-            repository.edita(
-                noticia,
-                quandoSucesso = sucesso,
-                quandoFalha = falha
-            )
-        } else {
             viewModel.salva(noticia).observe(this, Observer {
                 if (it.erro == null){
                    finish()
@@ -96,13 +82,6 @@ class FormularioNoticiaActivity : AppCompatActivity() {
                     mostraErro(MENSAGEM_ERRO_SALVAR)
                 }
             })
-//            repository.salva(
-//                noticia,
-//                quandoSucesso = sucesso,
-//                quandoFalha = falha
-//            )
         }
-    }
-
 
 }
