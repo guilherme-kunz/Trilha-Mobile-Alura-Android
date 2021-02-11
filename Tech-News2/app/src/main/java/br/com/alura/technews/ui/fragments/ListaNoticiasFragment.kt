@@ -9,11 +9,13 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.alura.technews.R
+import br.com.alura.technews.model.Noticia
 import br.com.alura.technews.ui.fragments.extensions.mostraErro
 import br.com.alura.technews.ui.recyclerview.adapter.ListaNoticiasAdapter
 import br.com.alura.technews.ui.viewmodel.ListaNoticiasViewModel
 import kotlinx.android.synthetic.main.lista_noticias.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.lang.IllegalArgumentException
 
 private const val MENSAGEM_FALHA_CARREGAR_NOTICIAS = "Não foi possível carregar as novas notícias"
 
@@ -25,10 +27,12 @@ class ListaNoticiasFragment : Fragment() {
         } ?: throw  IllegalArgumentException("Contexto inválido")
     }
     private val viewModel: ListaNoticiasViewModel by viewModel()
+    private lateinit var listener: ListaNoticiasListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         buscaNoticias()
+        listener = activity as ListaNoticiasListener
     }
 
     override fun onCreateView(
@@ -47,7 +51,7 @@ class ListaNoticiasFragment : Fragment() {
 
     private fun configuraFabAdicionaNoticia() {
         lista_noticias_fab_salva_noticia.setOnClickListener {
-//            abreFormularioModoCriacao()
+            listener.quandoFabSalvaNoticiaClicado()
         }
 
     }
@@ -59,7 +63,7 @@ class ListaNoticiasFragment : Fragment() {
     }
 
     private fun configuraAdapter() {
-//        adapter.quandoItemClicado = this::abreVisualizadorNoticia
+        adapter.quandoItemClicado = listener::quandoNoticiaSelecionada
     }
 
     private fun buscaNoticias() {
@@ -69,6 +73,11 @@ class ListaNoticiasFragment : Fragment() {
                 mostraErro(MENSAGEM_FALHA_CARREGAR_NOTICIAS)
             }
         })
+    }
+
+    interface ListaNoticiasListener {
+        fun quandoNoticiaSelecionada(noticia: Noticia)
+        fun quandoFabSalvaNoticiaClicado()
     }
 
 }
