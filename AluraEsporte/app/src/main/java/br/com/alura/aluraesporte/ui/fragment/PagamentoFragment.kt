@@ -52,7 +52,7 @@ class PagamentoFragment : Fragment() {
     }
 
     private fun buscaProduto() {
-        viewModel.buscaProdutoPorId(produtoId).observe(this, Observer {
+        viewModel.buscaProdutoPorId(produtoId).observe(viewLifecycleOwner, Observer {
             it?.let { produtoEncontrado ->
                 produtoEscolhido = produtoEncontrado
                 pagamento_preco.text = produtoEncontrado.preco
@@ -84,7 +84,7 @@ class PagamentoFragment : Fragment() {
     }
 
     private fun vaiParaListaProdutos() {
-        controlador.navigate(R.id.listaProdutos)
+        controlador.popBackStack(R.id.listaProdutos, false)
     }
 
     private fun criaPagamento(): Pagamento? {
