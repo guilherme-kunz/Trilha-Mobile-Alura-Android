@@ -21,6 +21,9 @@
         <action
             android:id="@+id/acao_detalhesProdutos_para_Pagamento"
             app:destination="@id/pagamento" />
+        <argument
+            android:name="produtoId"
+            app:argType="long" />
     </fragment>
     <fragment android:id="@+id/pagamento"
         android:label="Pagamento"
