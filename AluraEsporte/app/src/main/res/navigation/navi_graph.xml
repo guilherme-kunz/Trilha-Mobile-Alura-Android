@@ -34,5 +34,8 @@
             app:destination="@id/listaProdutos"
             app:launchSingleTop="true"
             app:popUpTo="@id/listaProdutos" />
+        <argument
+            android:name="produtoId"
+            app:argType="long" />
     </fragment>
 </navigation>
