@@ -55,11 +55,11 @@ class DetalhesProdutoFragment : Fragment() {
     private fun vaiParaPagamento() {
         val dados = Bundle()
         dados.putLong(CHAVE_PRODUTO_ID, produtoId)
-        controlador.navigate(R.id.pagamento, dados)
+        controlador.navigate(R.id.acao_detalhesProdutos_para_Pagamento, dados)
     }
 
     private fun buscaProduto() {
-        viewModel.produtoEncontrado.observe(this, Observer {
+        viewModel.produtoEncontrado.observe(viewLifecycleOwner, Observer {
             it?.let { produto ->
                 detalhes_produto_nome.text = produto.nome
                 detalhes_produto_preco.text = produto.preco.formatParaMoedaBrasileira()
