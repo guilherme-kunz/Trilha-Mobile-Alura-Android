@@ -11,11 +11,11 @@ import br.com.alura.aluraesporte.ui.fragment.ListaProdutosFragment
 import br.com.alura.aluraesporte.ui.fragment.PagamentoFragment
 import org.koin.android.ext.android.inject
 
-class ProdutosActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.produtos_activity)
+        setContentView(R.layout.main_activity)
     }
 
 }

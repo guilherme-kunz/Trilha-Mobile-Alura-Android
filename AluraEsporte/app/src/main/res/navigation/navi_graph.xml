@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navi_graph"
-    app:startDestination="@id/listaProdutos">
+    app:startDestination="@id/login">
     <fragment
         android:id="@+id/listaProdutos"
         android:name="br.com.alura.aluraesporte.ui.fragment.ListaProdutosFragment"
@@ -12,10 +12,10 @@
         <action
             android:id="@+id/acao_listaProdutos_para_detalhesProdutos"
             app:destination="@id/detalhesProduto"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_enter_anim"
-            app:popEnterAnim="@anim/nav_default_enter_anim"
-            app:popExitAnim="@anim/nav_default_enter_anim" />
+            app:enterAnim="@android:anim/slide_out_right"
+            app:exitAnim="@android:anim/slide_in_left"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/detalhesProduto"
@@ -25,10 +25,10 @@
         <action
             android:id="@+id/acao_detalhesProdutos_para_Pagamento"
             app:destination="@id/pagamento"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_enter_anim"
-            app:popEnterAnim="@anim/nav_default_enter_anim"
-            app:popExitAnim="@anim/nav_default_enter_anim" />
+            app:enterAnim="@android:anim/slide_out_right"
+            app:exitAnim="@android:anim/slide_in_left"
+            app:popEnterAnim="@android:anim/slide_out_right"
+            app:popExitAnim="@android:anim/slide_in_left" />
         <argument
             android:name="produtoId"
             app:argType="long" />
@@ -45,5 +45,14 @@
         <argument
             android:name="produtoId"
             app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/login"
+        android:name="br.com.alura.aluraesporte.ui.fragment.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/login">
+        <action
+            android:id="@+id/acao_login_para_listaProdutos"
+            app:destination="@id/listaProdutos" />
     </fragment>
 </navigation>
