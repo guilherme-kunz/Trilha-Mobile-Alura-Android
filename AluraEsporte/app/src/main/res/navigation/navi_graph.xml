@@ -16,6 +16,9 @@
             app:exitAnim="@android:anim/slide_in_left"
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/acao_listaProdutos_para_login"
+            app:destination="@id/login" />
     </fragment>
     <fragment
         android:id="@+id/detalhesProduto"

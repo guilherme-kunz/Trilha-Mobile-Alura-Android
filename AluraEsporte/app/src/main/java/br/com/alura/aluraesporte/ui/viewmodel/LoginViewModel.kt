@@ -9,5 +9,9 @@ class LoginViewModel(private val repository: LoginRepository) : ViewModel() {
         repository.loga()
     }
 
+    fun desloga() {
+        repository.desloga()
+    }
+
     fun estaLogado(): Boolean = repository.estaLogado()
 }
