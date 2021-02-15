@@ -40,8 +40,8 @@
         <action
             android:id="@+id/acao_pagamento_para_listaProdutos"
             app:destination="@id/listaProdutos"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/listaProdutos" />
+            app:popUpTo="@id/listaProdutos"
+            app:popUpToInclusive="true" />
         <argument
             android:name="produtoId"
             app:argType="long" />
@@ -53,6 +53,8 @@
         tools:layout="@layout/login">
         <action
             android:id="@+id/acao_login_para_listaProdutos"
-            app:destination="@id/listaProdutos" />
+            app:destination="@id/listaProdutos"
+            app:popUpTo="@id/login"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
