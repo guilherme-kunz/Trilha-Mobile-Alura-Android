@@ -13,8 +13,11 @@ import br.com.alura.aluraesporte.R
 import br.com.alura.aluraesporte.extensions.formatParaMoedaBrasileira
 import br.com.alura.aluraesporte.model.Pagamento
 import br.com.alura.aluraesporte.model.Produto
+import br.com.alura.aluraesporte.ui.viewmodel.ComponentesVisuais
+import br.com.alura.aluraesporte.ui.viewmodel.EstadoAppViewModel
 import br.com.alura.aluraesporte.ui.viewmodel.PagamentoViewModel
 import kotlinx.android.synthetic.main.pagamento.*
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 private const val FALHA_AO_CRIAR_PAGAMENTO = "Falha ao criar pagamento"
@@ -22,11 +25,12 @@ private const val COMPRA_REALIZADA = "Compra realizada"
 
 class PagamentoFragment : BaseFragment() {
 
-    private val argumentos by navArgs<PagamentoFragmentArgs>()
+    private val argumento by navArgs<PagamentoFragmentArgs>()
     private val produtoId by lazy {
-        argumentos.produtoId
+        argumento.produtoId
     }
     private val viewModel: PagamentoViewModel by viewModel()
+    private val estadoAppViewModel: EstadoAppViewModel by sharedViewModel()
     private lateinit var produtoEscolhido: Produto
     private val controlador by lazy {
         findNavController()
@@ -46,6 +50,7 @@ class PagamentoFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        estadoAppViewModel.temComponentes = ComponentesVisuais(appBar = true)
         configuraBotaoConfirmaPagamento()
         buscaProduto()
     }
@@ -74,8 +79,12 @@ class PagamentoFragment : BaseFragment() {
         if (::produtoEscolhido.isInitialized) {
             viewModel.salva(pagamento)
                 .observe(this, Observer {
-                    it?.dado?.let{
-                        Toast.makeText(context, COMPRA_REALIZADA, Toast.LENGTH_SHORT).show()
+                    it?.dado?.let {
+                        Toast.makeText(
+                            context,
+                            COMPRA_REALIZADA,
+                            Toast.LENGTH_SHORT
+                        ).show()
                         vaiParaListaProdutos()
                     }
                 })
@@ -83,9 +92,9 @@ class PagamentoFragment : BaseFragment() {
     }
 
     private fun vaiParaListaProdutos() {
-        val directions =
-            PagamentoFragmentDirections.acaoPagamentoParaListaProdutos()
-        controlador.navigate(directions)
+        val direcoes = PagamentoFragmentDirections
+            .actionPagamentoToListaProdutos()
+        controlador.navigate(direcoes)
     }
 
     private fun criaPagamento(): Pagamento? {

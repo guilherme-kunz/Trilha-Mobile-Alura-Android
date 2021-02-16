@@ -1,27 +1,30 @@
 package br.com.alura.aluraesporte.ui.fragment
 
 import android.os.Bundle
-import android.view.*
-import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import br.com.alura.aluraesporte.R
 import br.com.alura.aluraesporte.extensions.formatParaMoedaBrasileira
+import br.com.alura.aluraesporte.ui.viewmodel.ComponentesVisuais
 import br.com.alura.aluraesporte.ui.viewmodel.DetalhesProdutoViewModel
+import br.com.alura.aluraesporte.ui.viewmodel.EstadoAppViewModel
 import kotlinx.android.synthetic.main.detalhes_produto.*
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class DetalhesProdutoFragment : BaseFragment() {
 
-    private val argumentos by navArgs<DetalhesProdutoFragmentArgs>()
-
+    private val argumento by navArgs<DetalhesProdutoFragmentArgs>()
     private val produtoId by lazy {
-        argumentos.produtoId
+        argumento.produtoId
     }
     private val viewModel: DetalhesProdutoViewModel by viewModel { parametersOf(produtoId) }
-
+    private val estadoAppViewModel: EstadoAppViewModel by sharedViewModel()
     private val controlador by lazy {
         findNavController()
     }
@@ -40,6 +43,7 @@ class DetalhesProdutoFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        estadoAppViewModel.temComponentes = ComponentesVisuais(appBar = true)
         buscaProduto()
         configuraBotaoComprar()
     }
@@ -53,9 +57,9 @@ class DetalhesProdutoFragment : BaseFragment() {
     }
 
     private fun vaiParaPagamento() {
-        val directions =
-            DetalhesProdutoFragmentDirections.acaoDetalhesProdutosParaPagamento(produtoId)
-        controlador.navigate(directions)
+        val direcoes = DetalhesProdutoFragmentDirections
+            .actionDetalhesProdutoToPagamento(produtoId)
+        controlador.navigate(direcoes)
     }
 
     private fun buscaProduto() {

@@ -6,7 +6,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import br.com.alura.aluraesporte.NaviGraphDirections
+import br.com.alura.aluraesporte.NavGraphDirections
 import br.com.alura.aluraesporte.R
 import br.com.alura.aluraesporte.ui.viewmodel.LoginViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -14,36 +14,38 @@ import org.koin.android.viewmodel.ext.android.viewModel
 abstract class BaseFragment : Fragment() {
 
     private val loginViewModel: LoginViewModel by viewModel()
-    private val controlador by lazy { findNavController() }
+    private val controlador by lazy {
+        findNavController()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        verificaSeEstaLogado()
+        verificaEstaLogado()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.menu_principal, menu)
+        inflater?.inflate(R.menu.menu_deslogar, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if(item?.itemId == R.id.menu_principal_deslogar){
             loginViewModel.desloga()
-            vaiParaLogin()
+            vaiparaLogin()
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun vaiParaLogin() {
-        val direcao = NaviGraphDirections.acaoGlobalLogin()
-        controlador.navigate(direcao)
+    private fun vaiparaLogin() {
+        val direcoes =
+            NavGraphDirections.actionGlobalLogin()
+        controlador.navigate(direcoes)
     }
 
-    private fun verificaSeEstaLogado() {
-        if (loginViewModel.naoestaLogado()) {
-            vaiParaLogin()
+    private fun verificaEstaLogado() {
+        if(!loginViewModel.estalogado()){
+            vaiparaLogin()
         }
     }
-
 }
