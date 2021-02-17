@@ -16,13 +16,6 @@ class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
         firebaseAuth.signOut()
     }
 
-    private fun autenticaUsuario(firebaseAuth: FirebaseAuth) {
-        firebaseAuth.signInWithEmailAndPassword("gui-3@aluraesporte.com", "teste123")
-            .addOnSuccessListener {
-            }.addOnFailureListener {
-            }
-    }
-
      fun cadastra(usuario: Usuario): LiveData<Resource<Boolean>> {
         val liveData = MutableLiveData<Resource<Boolean>>()
          try {
@@ -59,6 +52,25 @@ class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
         }
             return false
 
+    }
+
+    fun autentica(usuario: Usuario) : LiveData<Resource<Boolean>>{
+        val liveData = MutableLiveData<Resource<Boolean>>()
+        firebaseAuth.signInWithEmailAndPassword(usuario.email, usuario.senha)
+            .addOnCompleteListener{ tarefa ->
+                if (tarefa.isSuccessful) {
+                    liveData.value = Resource(true)
+                } else {
+                    Log.e(TAG, "autentica: ", tarefa.exception)
+                    val mensagemErro: String = when(tarefa.exception){
+                        is FirebaseAuthInvalidUserException,
+                        is FirebaseAuthInvalidCredentialsException -> "E-mail ou senha incorretos"
+                        else -> "Erro desconhecido"
+                    }
+                    liveData.value = Resource(false, mensagemErro)
+                }
+            }
+        return liveData
     }
 
 }
