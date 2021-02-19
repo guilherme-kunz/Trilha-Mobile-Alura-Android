@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <import type="android.view.View" />
         <variable
@@ -7,11 +9,9 @@
             type="android.view.View.OnClickListener" />
         <variable
             name="nota"
-            type="br.com.alura.ceep.model.Nota" />
+            type="br.com.alura.ceep.ui.databinding.NotaData" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -35,8 +35,8 @@
             android:layout_marginTop="8dp"
             android:background="@android:color/transparent"
             android:hint="@string/titulo"
-            android:text="@={nota.titulo}"
             android:inputType="text"
+            android:text="@={nota.titulo}"
             android:textSize="32sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/formulario_nota_favorita"
